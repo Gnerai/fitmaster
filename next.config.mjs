@@ -4,7 +4,9 @@ const nextConfig = {
   poweredByHeader: false,
 
   images: {
-    formats: ['image/avif', 'image/webp'],
+    // Solo WebP: AVIF crashea sharp al codificar imágenes grandes en el VPS (2GB RAM).
+    // WebP es fiable, ligero de codificar y con soporte universal.
+    formats: ['image/webp'],
     minimumCacheTTL: 2592000, // 30 días — imágenes estáticas no cambian
     deviceSizes: [640, 828, 1080, 1280, 1920],
     imageSizes: [64, 128, 256, 384, 512],
