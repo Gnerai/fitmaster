@@ -1,8 +1,6 @@
 import type { Metadata } from 'next'
-import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowRight, MessageCircle, ShieldCheck, Star, Smile, Beaker } from 'lucide-react'
-import tiendaFitmaster from '@/assets/tienda_fitmaster.webp'
 
 export const metadata: Metadata = {
   title: 'Tienda de Suplementación Deportiva en Gijón',
@@ -163,12 +161,13 @@ export default function TiendaPage() {
         <div className="hidden lg:block bg-[#1a1a1a]" />
         <div className="hidden lg:flex relative items-end bg-[#050505] p-12 overflow-hidden"
           style={{ clipPath: 'polygon(0 0, 100% 0, 100% 100%, 6% 100%)' }}>
-          <Image
-            src={tiendaFitmaster}
-            alt="Exterior de la tienda Fitmaster"
-            fill
-            priority
-            className="object-cover object-[72%_center] opacity-55"
+          <video
+            src="/videohome.mp4"
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover opacity-60"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-[#050505]/80 via-[#050505]/30 to-transparent" />
           <div className="absolute inset-0 bg-black/10" />
@@ -180,6 +179,21 @@ export default function TiendaPage() {
               Vienes a elegir mejor.
             </p>
           </div>
+        </div>
+      </section>
+
+      {/* VIDEO — visible en móvil */}
+      <section className="lg:hidden bg-black">
+        <div className="relative aspect-video overflow-hidden">
+          <video
+            src="/videohome.mp4"
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
         </div>
       </section>
 

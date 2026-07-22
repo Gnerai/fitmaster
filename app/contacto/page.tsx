@@ -40,12 +40,6 @@ const hours = [
   { day: 'Domingo', time: 'Cerrado', open: false },
 ]
 
-const canDo = [
-  'Solicitar asesoramiento personalizado',
-  'Consultar productos de la tienda',
-  'Resolver dudas sobre suplementación',
-  'Colaborar o patrocinar con la marca',
-]
 
 const breadcrumbSchema = {
   '@context': 'https://schema.org',
@@ -188,45 +182,6 @@ export default function ContactoPage() {
         </div>
       </section>
 
-      {/* QUÉ PUEDES HACER */}
-      <section className="bg-black diagonal-top pt-24 pb-24">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-12">
-            <span className="section-label block mb-4">Motivos</span>
-            <h2 className="font-heading font-black text-white uppercase text-[clamp(28px,4vw,48px)] leading-[0.9] tracking-tight">
-              Qué puedes hacer desde aquí
-            </h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
-            {canDo.map((item, i) => (
-              <div key={i} className="card-dark p-6 text-center"
-                style={{ clipPath: i % 2 === 1 ? 'polygon(0 3%, 100% 0, 100% 97%, 0 100%)' : 'none' }}>
-                <div className="w-8 h-8 bg-fitgreen mx-auto mb-4 flex items-center justify-center"
-                  style={{ clipPath: 'polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%)' }}>
-                  <span className="font-heading font-black text-black text-xs">{String(i + 1).padStart(2, '0')}</span>
-                </div>
-                <p className="font-body text-white/60 text-sm leading-relaxed">{item}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CIERRE */}
-      <section className="py-16 bg-fitgreen">
-        <div className="max-w-7xl mx-auto px-6 text-center">
-          <h2 className="font-heading font-black text-black text-3xl md:text-4xl uppercase leading-[0.9] tracking-tight mb-6">
-            No sigas dándole vueltas.
-          </h2>
-          <p className="font-body text-black/50 text-base mb-8">
-            Contacta con Fitmaster y te ayudamos a ver cuál es el paso correcto para ti.
-          </p>
-          <a href="https://wa.me/34722624740" target="_blank" rel="noopener noreferrer"
-            className="btn-black-on-green inline-flex items-center gap-2">
-            <MessageCircle size={14} /> Hablar por WhatsApp
-          </a>
-        </div>
-      </section>
     </>
   )
 }

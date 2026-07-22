@@ -4,6 +4,7 @@ import './globals.css'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import WhatsAppButton from '@/components/WhatsAppButton'
+import StickyMobileCta from '@/components/StickyMobileCta'
 import JsonLd from '@/components/JsonLd'
 
 const montserrat = Montserrat({
@@ -121,9 +122,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <JsonLd />
         <Navbar />
-        <main>{children}</main>
+        <main className="pb-20 md:pb-0">{children}</main>
         <Footer />
         <WhatsAppButton />
+        <StickyMobileCta />
       </body>
     </html>
   )

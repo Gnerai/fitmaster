@@ -367,7 +367,28 @@ export async function POST(req: NextRequest) {
 
   try {
     const body = await req.json()
-    const { name, email, phone, subject, message } = body
+    const { name, email, phone, subject, message, company, elapsedMs } = body
+
+    // Anti-bot 1 — Honeypot: campo trampa oculto. Si viene relleno, es un bot.
+    // Devolvemos éxito falso para no darle pistas al bot.
+    if (company) {
+      console.warn('[Contact API] Honeypot activado — envío descartado')
+      return NextResponse.json({ success: true })
+    }
+
+    // Anti-bot 2 — Tiempo: un humano tarda más de 3s en rellenar el formulario.
+    // Un envío casi instantáneo delata a un script automatizado.
+    if (typeof elapsedMs === 'number' && elapsedMs < 3000) {
+      console.warn(`[Contact API] Envío demasiado rápido (${elapsedMs}ms) — descartado`)
+      return NextResponse.json({ success: true })
+    }
+
+    // Anti-bot 3 — Enlaces: los spammers meten URLs en el mensaje.
+    const linkCount = (String(message).match(/https?:\/\//gi) || []).length
+    if (linkCount >= 3) {
+      console.warn(`[Contact API] Mensaje con ${linkCount} enlaces — descartado`)
+      return NextResponse.json({ success: true })
+    }
 
     if (!name || !email || !subject || !message) {
       return NextResponse.json(

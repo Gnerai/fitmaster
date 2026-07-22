@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { Send } from 'lucide-react'
 
 type FormStatus = 'idle' | 'loading' | 'success' | 'error'
@@ -9,6 +9,10 @@ export default function ContactoForm() {
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', subject: '', message: '' })
   const [status, setStatus] = useState<FormStatus>('idle')
   const [errorMsg, setErrorMsg] = useState('')
+  // Honeypot: campo trampa que solo rellenan los bots
+  const [honeypot, setHoneypot] = useState('')
+  // Momento en que se montó el formulario — sirve para detectar envíos instantáneos (bots)
+  const mountedAt = useRef(Date.now())
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))
@@ -22,7 +26,11 @@ export default function ContactoForm() {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          company: honeypot,
+          elapsedMs: Date.now() - mountedAt.current,
+        }),
       })
       if (res.ok) {
         setStatus('success')
@@ -61,6 +69,20 @@ export default function ContactoForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
+      {/* Honeypot — oculto para humanos, visible para bots. No tocar. */}
+      <div aria-hidden="true" className="absolute left-[-9999px] top-[-9999px] h-0 w-0 overflow-hidden" tabIndex={-1}>
+        <label htmlFor="company">No rellenar este campo</label>
+        <input
+          id="company"
+          name="company"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+          value={honeypot}
+          onChange={(e) => setHoneypot(e.target.value)}
+        />
+      </div>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <label className="section-label block mb-2" htmlFor="name">Nombre *</label>
